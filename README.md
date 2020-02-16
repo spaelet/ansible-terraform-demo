@@ -140,7 +140,7 @@ We'll need SSH to work, because that's how Ansible will connect to install the w
 > ssh ubuntu@$ip
 ```
 
-# Overview of the Ansible code
+## Overview of the Ansible code
 Now we'll install NginX on the EC2 instance using Ansible. Here's the code we'll be using
 
 ```yaml
@@ -161,12 +161,44 @@ Let's go ahead and run the playbook against the instance we just created.
 ```
 > cd ../ansible
 > ansible-playbook -u ubuntu -i "$ip," main.yml
+PLAY [all] *********************************************************************************************
+
+TASK [apt] *********************************************************************************************
+changed: [54.90.187.139]
+
+PLAY RECAP *********************************************************************************************
+54.90.187.139              : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
 
 ## Browse
 You can curl on the command line, or paste the IP in your browser
 ```
 > curl $ip
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
 ```
 
 ## Teardown
