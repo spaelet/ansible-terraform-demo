@@ -2,15 +2,15 @@
 # Terraform/Ansible Demo
 
 ## Prerequisites
-- Ansible
-- Terraform
-- The AWS CLI
-- A basic network set up in AWS including
-  - VPC
-  - Public Subnet
-  - Internet Gateway
-  - Security groups
-- An AWS keypair in `~/.aws/credentials`
+- Ansible ([instructions](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))
+- Terraform ([instructions](https://learn.hashicorp.com/terraform/getting-started/install.html))
+- The AWS CLI ([instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html))
+- An AWS account ([instructions](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
+- An AWS keypair with admin perms in `~/.aws/credentials` ([instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html))
+- A SSH keypair in `~/.ssh/id_rsa` ([instructions](https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html))
+
+## Note about AWS costs
+Standing up this stack may incur charges on your AWS account. Be sure to tear it down when you're done, so it doesn't add up.
 
 ## Stand up an EC2 instance using Terraform
 ```
