@@ -2,7 +2,12 @@
 # Terraform/Ansible Demo
 
 ## Overview
-This demo will walk you through standing up an EC2 instance in AWS from scratch (including all the networking needed to make it accessible from the internet), installing the NginX web server, and viewing the default welcome page in a browser.
+This demo illustrates using Terraform and Ansible together to stand up a simple infrastructure.
+
+In particular we will:
+- Stand up an EC2 instance in AWS from scratch, including all the networking needed to make it accessible from the internet
+- Installing the NginX web server on the instance
+- Viewing the default NginX welcome page in a browser
 
 We'll use Terraform for standing up the infrastructure, and Ansible for installing NginX.
 
@@ -18,11 +23,12 @@ We'll use Terraform for standing up the infrastructure, and Ansible for installi
 Standing up this stack may incur charges on your AWS account. Be sure to tear it down when you're done, so it doesn't add up.
 
 ## Stand up the infrastructure using Terraform
-This will stand up the following resources
+This will stand up the following resources in AWS
 - A VPC
+- An EC2 Key Pair
 - An Internet Gateway
 - A public subnet
-- A routing table for the subnet
+- A route table for the subnet
 - Three security groups
 - An EC2 instance (running Ubuntu)
 
@@ -33,7 +39,7 @@ This will stand up the following resources
 > terraform apply
 ```
 
-## Note that this will create a terraform state file
+## Note that this will create a Terraform state file
 Normally we would configure Terraform to save the state file in S3 so others may access it, but for demo purposes we'll save it locally.
 ```
 > cat terraform.tfstate
@@ -63,42 +69,17 @@ We'll need SSH to work, because that's how Ansible will connect to install the w
 ```
 
 ## Browse
+You can curl on the command line, or paste the IP in your browser
 ```
 > curl $ip
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
-
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
 ```
 
 ## Teardown
 ```
+> cd ../terraform
 > terraform destroy
-```
 
-Optional: remove the local terraform state
-```
+# Optional: remove the local terraform state
 > rm -r .terraform terraform.tfstate
 ```
 
