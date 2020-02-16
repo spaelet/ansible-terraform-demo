@@ -1,6 +1,17 @@
 
 # Terraform/Ansible Demo
 
+## Prerequisites
+- Ansible
+- Terraform
+- The AWS CLI
+- A basic network set up in AWS including
+  - VPC
+  - Public Subnet
+  - Internet Gateway
+  - Security groups
+- An AWS keypair in `~/.aws/credentials`
+
 ## Stand up an EC2 instance using Terraform
 ```
 > cd terraform
@@ -9,17 +20,23 @@
 > terraform apply
 ```
 
+## View it in the AWS CLI
+```
+aws ec2 describe-instances
+```
+
 ## Grab the public IP
 ```
 > ip=`terraform output | grep ip | awk '{ print $3 }'`
 ```
 
-## Install NginX on it using Ansible
+## Install NginX using Ansible
 ```
+> cd ../ansible
 > ansible-playbook -u ubuntu -i "$ip," main.yml
 ```
 
-## Confirm you can Curl to it
+## Browse
 ```
 > curl $ip
 <!DOCTYPE html>
