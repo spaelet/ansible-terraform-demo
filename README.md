@@ -22,21 +22,93 @@ Accounts/Credentials
 ## Note about AWS costs
 Standing up this stack may incur charges on your AWS account. Be sure to tear it down when you're done, so it doesn't add up.
 
-## Stand up the infrastructure using Terraform
-This will stand up the following resources in AWS
+## Architecture Diagram
+Here's a diagram of the infrastructure we'll be standing up:
 
 ![](images/ansible-terraform-demo.png)
 
-Networking
-- A VPC
-- An EC2 Key Pair
-- An Internet Gateway
-- A public subnet
-- A route table for the subnet
-- Three security groups
+## Terraform overview
+Here's an overview of the terraform code we'll be using (simplified for clarity)
 
-Compute
-- An EC2 instance (running Ubuntu)
+```
+# VPC ===========================================================
+
+resource "aws_vpc" "main" {
+...
+}
+
+# HTTP From World Security Group ================================
+
+resource "aws_security_group" "http_from_world" {
+...
+}
+
+resource "aws_security_group_rule" "http_from_world" {
+...
+}
+
+# SSH From World Security Group =================================
+
+resource "aws_security_group" "ssh_from_world" {
+...
+}
+
+resource "aws_security_group_rule" "ssh_from_world" {
+...
+}
+
+# Egress to World Security Group ================================
+
+resource "aws_security_group" "egress_to_world" {
+...
+}
+
+resource "aws_security_group_rule" "egress_to_world" {
+...
+}
+
+# EC2 Key Pair ==================================================
+
+resource "aws_key_pair" "master" {
+...
+}
+
+# Internet Gateway =================================================
+
+resource "aws_internet_gateway" "igw" {
+...
+}
+
+# Public Subnet =================================================
+
+resource "aws_subnet" "public" {
+...
+}
+
+# Public Subnet Route Table =====================================
+
+resource "aws_route_table" "public" {
+...
+}
+
+resource "aws_route" "route" {
+...
+}
+
+resource "aws_route_table_association" "public" {
+...
+}
+
+# EC2 instance ==================================================
+
+resource "aws_instance" "web" {
+...
+}
+
+```
+
+## Stand up the infrastructure
+Now let's use Terraform to stand up the infrastructure
 
 ```
 > cd terraform
@@ -51,7 +123,7 @@ Normally we would configure Terraform to save the state file in S3 so others may
 > cat terraform.tfstate
 ```
 
-## View the instance in the AWS CLI
+## View the EC2 instance in the AWS CLI
 ```
 > aws ec2 describe-instances
 ```
@@ -68,7 +140,24 @@ We'll need SSH to work, because that's how Ansible will connect to install the w
 > ssh ubuntu@$ip
 ```
 
+# Overview of the Ansible code
+Now we'll install NginX on the EC2 instance using Ansible. Here's the code we'll be using
+
+```yaml
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  become_user: root
+  tasks:
+  - apt:
+      name: nginx
+      update_cache: yes
+```
+
 ## Install NginX using Ansible
+Let's go ahead and run the playbook against the instance we just created.
+
 ```
 > cd ../ansible
 > ansible-playbook -u ubuntu -i "$ip," main.yml
@@ -81,6 +170,7 @@ You can curl on the command line, or paste the IP in your browser
 ```
 
 ## Teardown
+Be sure to tear down your infrastructure when you're done, so you don't incur AWS costs.
 ```
 > cd ../terraform
 > terraform destroy
