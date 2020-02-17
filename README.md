@@ -161,6 +161,10 @@ Let's go ahead and run the playbook against the instance we just created.
 ```
 > cd ../ansible
 > ansible-playbook -u ubuntu -i "$ip," main.yml
+```
+
+Output
+```
 PLAY [all] *********************************************************************************************
 
 TASK [apt] *********************************************************************************************
@@ -174,6 +178,10 @@ PLAY RECAP *********************************************************************
 You can curl on the command line, or paste the IP in your browser
 ```
 > curl $ip
+```
+
+Output
+```
 <!DOCTYPE html>
 <html>
 <head>
@@ -206,8 +214,10 @@ Be sure to tear down your infrastructure when you're done, so you don't incur AW
 ```
 > cd ../terraform
 > terraform destroy
+```
 
-# Optional: remove the local terraform state
+Optional: remove the local Terraform state
+```
 > rm -r .terraform terraform.tfstate
 ```
 
