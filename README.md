@@ -33,10 +33,14 @@ Here's an overview of the terraform code we'll be using
 ```
 ansible-terraform-demo
 |- terraform
-|  |- terraform.tfvars
-|  |- variables.tf
-|  |- main.tf
-|  |- (terraform.tfstate) # <-- temporary file
+|  |- basic
+|  |  |- spaelet
+|  |  |  |- terraform.tfvars
+|  |  |  |- variables.tf
+|  |  |  |- main.tf
+|  |  |  |- (terraform.tfstate) # <-- temporary file
+|  |- advanced
+|  |  |- ...
 |- ansible
 |  |- ...
 ```
@@ -155,3 +159,27 @@ Optional: remove the local Terraform state
 
 ## Using the Advanced version
 The "advanced" Terraform version uses modules and remote state. It should work the same way, except you'll need to run `terraform/advanced/tfstate/main.yml" first to set up the S3 bucket and dynamo table.
+
+#### Files in the Advanced demo
+```
+ansible-terraform-demo
+|- terraform
+|  |- basic
+|  |  |- ...
+|  |- advanced
+|  |  |- tfstate
+|  |  |  |- terraform.tfvars
+|  |  |  |- variables.tf
+|  |  |  |- main.tf
+|  |  |  |- (terraform.tfstate) # <-- temporary file
+|  |  |- spaelet
+|  |  |  |- terraform.tfvars
+|  |  |  |- variables.tf
+|  |  |  |- main.tf
+|  |  |- modules
+|  |  |  |- vpc
+|  |  |  |- private_subnet
+|  |  |  |- ec2
+|- ansible
+|  |- ...
+```
