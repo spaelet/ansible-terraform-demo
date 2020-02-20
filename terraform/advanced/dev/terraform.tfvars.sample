@@ -1,0 +1,7 @@
+stack_name          = "dev-vpc"
+public_key_path     = "~/.ssh/id_rsa.pub"
+availability_zone   = "us-east-1a"
+vpc_cidr            = "10.0.0.0/23"
+public_subnet_cidr  = "10.0.0.0/24"
+private_subnet_cidr = "10.0.1.0/24"
+

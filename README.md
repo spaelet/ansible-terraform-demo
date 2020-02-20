@@ -28,83 +28,17 @@ Here's a diagram of the infrastructure we'll be standing up:
 ![](images/ansible-terraform-demo.png)
 
 ## Terraform overview
-Here's an overview of the terraform code we'll be using (simplified for clarity)
+Here's an overview of the terraform code we'll be using
 
 ```
-# VPC ===========================================================
-
-resource "aws_vpc" "main" {
-...
-}
-
-# HTTP From World Security Group ================================
-
-resource "aws_security_group" "http_from_world" {
-...
-}
-
-resource "aws_security_group_rule" "http_from_world" {
-...
-}
-
-# SSH From World Security Group =================================
-
-resource "aws_security_group" "ssh_from_world" {
-...
-}
-
-resource "aws_security_group_rule" "ssh_from_world" {
-...
-}
-
-# Egress to World Security Group ================================
-
-resource "aws_security_group" "egress_to_world" {
-...
-}
-
-resource "aws_security_group_rule" "egress_to_world" {
-...
-}
-
-# EC2 Key Pair ==================================================
-
-resource "aws_key_pair" "master" {
-...
-}
-
-# Internet Gateway =================================================
-
-resource "aws_internet_gateway" "igw" {
-...
-}
-
-# Public Subnet =================================================
-
-resource "aws_subnet" "public" {
-...
-}
-
-# Public Subnet Route Table =====================================
-
-resource "aws_route_table" "public" {
-...
-}
-
-resource "aws_route" "route" {
-...
-}
-
-resource "aws_route_table_association" "public" {
-...
-}
-
-# EC2 instance ==================================================
-
-resource "aws_instance" "web" {
-...
-}
-
+ansible-terraform-demo
+|- terraform
+|  |- terraform.tfvars
+|  |- variables.tf
+|  |- main.tf
+|  |- (terraform.tfstate) # <-- temporary file
+|- ansible
+|  |- ...
 ```
 
 ## Stand up the infrastructure
@@ -117,7 +51,7 @@ Now let's use Terraform to stand up the infrastructure
 > terraform apply
 ```
 
-## Note that this will create a Terraform state file
+#### Note the Terraform state file
 Normally we would configure Terraform to save the state file in S3 so others may access it, but for demo purposes we'll let Terraform default to saving it locally.
 ```
 > cat terraform.tfstate
@@ -143,16 +77,12 @@ We'll need SSH to work, because that's how Ansible will connect to install the w
 ## Overview of the Ansible code
 Now we'll install NginX on the EC2 instance using Ansible. Here's the code we'll be using
 
-```yaml
----
-- hosts: all
-  gather_facts: no
-  become: yes
-  become_user: root
-  tasks:
-  - apt:
-      name: nginx
-      update_cache: yes
+ansible-terraform-demo
+|- terraform
+|  |- ...
+|- ansible
+|  |- main.yml
+```
 ```
 
 ## Install NginX using Ansible
@@ -163,7 +93,8 @@ Let's go ahead and run the playbook against the instance we just created.
 > ansible-playbook -u ubuntu -i "$ip," main.yml
 ```
 
-Output
+#### Output
+
 ```
 PLAY [all] *********************************************************************************************
 
@@ -180,7 +111,8 @@ You can curl on the command line, or paste the IP in your browser
 > curl $ip
 ```
 
-Output
+#### Output
+
 ```
 <!DOCTYPE html>
 <html>
