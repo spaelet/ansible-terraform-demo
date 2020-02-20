@@ -153,4 +153,5 @@ Optional: remove the local Terraform state
 > rm -r .terraform terraform.tfstate
 ```
 
-
+## Using the Advanced version
+The "advanced" Terraform version uses modules and remote state. It should work the same way, except you'll need to run `terraform/advanced/tfstate/main.yml" first to set up the S3 bucket and dynamo table.

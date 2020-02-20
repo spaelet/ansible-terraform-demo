@@ -12,9 +12,9 @@ terraform {
   backend "s3" {
     encrypt        = true
     bucket         = "spaelet-tfstate-advanced"
-    dynamodb_table = "tfstate-advanced"
+    dynamodb_table = "spaelet-tfstate-advanced"
     region         = "us-east-1"
-    key            = "vpc/terraform.tfstate"
+    key            = "terraform.tfstate"
   }
 }
 
@@ -46,5 +46,11 @@ module "web" {
   key_name           = "${module.vpc.key_name}"
   security_group_ids = "${list(module.vpc.http_from_world_group_id,module.vpc.ssh_from_world_group_id,module.vpc.egress_to_world_group_id)}"
   name               = "${var.stack_name}-web"
+}
+
+# Outputs =======================================================
+
+output "ip" {
+  value = "${module.web.ip}"
 }
 
