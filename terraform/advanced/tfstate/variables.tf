@@ -1,0 +1,1 @@
+variable "stack_name" {}

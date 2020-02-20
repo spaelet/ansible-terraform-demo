@@ -2,21 +2,20 @@
 # AWS Provider ================================================
 
 provider "aws" {
-  profile = "default"
   region  = "us-east-1"
 }
 
 # Bucket ================================================
 
-resource "aws_s3_bucket" "bucket" {
-  bucket = "spaelet-tfstate-advanced"
+resource "aws_s3_bucket" "tfstate" {
+  bucket = "${var.stack_name}"
   acl    = "private"
 }
 
 # Table ================================================
 
 resource "aws_dynamodb_table" "tfstate" {
-  name = "tfstate-advanced"
+  name = "${var.stack_name}"
   hash_key = "LockID"
   read_capacity = 20
   write_capacity = 20
