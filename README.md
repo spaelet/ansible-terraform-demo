@@ -130,7 +130,7 @@ ansible-terraform-demo
 |  |  |  |- variables.tf
 |  |  |  |- main.tf
 |  |  |  |- (terraform.tfstate) # <-- temporary file
-|  |  |- spaelet
+|  |  |- demo
 |  |  |  |- terraform.tfvars
 |  |  |  |- variables.tf
 |  |  |  |- main.tf
