@@ -28,7 +28,7 @@ Here's a diagram of the infrastructure we'll be standing up:
 ![](images/ansible-terraform-demo.png)
 
 ## Terraform overview
-Here's an overview of the terraform code we'll be using
+Here's an overview of the Terraform code we'll be using for the "basic" demo
 
 ```
 ansible-terraform-demo
@@ -68,7 +68,7 @@ Normally we would configure Terraform to save the state file in S3 so others may
 ## Grab the public IP of the instance
 ...so we can use it later
 ```
-> ip=`terraform output | grep ip | awk '{ print $3 }'`
+> ip=`terraform output ip`
 ```
 
 ## Confirm you can SSH to the instance

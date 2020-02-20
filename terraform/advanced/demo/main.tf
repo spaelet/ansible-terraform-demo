@@ -11,8 +11,8 @@ provider "aws" {
 terraform {
   backend "s3" {
     encrypt        = true
-    bucket         = "spaelet-tfstate-advanced"
-    dynamodb_table = "spaelet-tfstate-advanced"
+    bucket         = "spaelet-tfstate"
+    dynamodb_table = "spaelet-tfstate"
     region         = "us-east-1"
     key            = "terraform.tfstate"
   }
